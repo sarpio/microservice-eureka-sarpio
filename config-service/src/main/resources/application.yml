@@ -9,6 +9,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/sarpio/microservice-eureka-sarpio/Config
+          uri: https://github.com/sarpio/config-service
           clone-on-start: true
           default-label: main
+
+
