@@ -1,39 +1,33 @@
 package com.sarpio.departmentservice;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableEurekaClient
 @SpringBootApplication
+@EnableSwagger2
 public class DepartmentServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DepartmentServiceApplication.class, args);
     }
 
-//    @Autowired
-//    public void setEnv(Environment e) {
-//        System.out.println(e.getProperty("msg"));
-//    }
-//
-//    @RefreshScope
-//    @RestController
-//    class MessageRestController {
-//
-//        @Value("${msg:Config Server is not working. Please check...}")
-//        private String msg;
-//
-//        @GetMapping("/msg")
-//        private String getMsg() {
-//            return this.getMsg();
-//        }
-//    }
+    @Bean
+    public Docket swaggerEmployeeApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.sarpio.departmentservice.controller"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(new ApiInfoBuilder().version("1.0").title("Department Service").description("Documentation Department service v1.0").build());
+    }
+
 }
